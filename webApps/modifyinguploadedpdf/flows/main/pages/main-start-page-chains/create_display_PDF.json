@@ -1,0 +1,64 @@
+{
+  "description": "",
+  "root": "resetVariablesFileURL",
+  "actions": {
+    "resetVariablesFileURL": {
+      "module": "vb/action/builtin/resetVariablesAction",
+      "parameters": {
+        "variables": [
+          "$page.variables.fileURL",
+          "$page.variables.tmpPDFBytes"
+        ]
+      },
+      "outcomes": {
+        "success": "callFunctionCreatePDF"
+      }
+    },
+    "callFunctionCreatePDF": {
+      "module": "vb/action/builtin/callModuleFunctionAction",
+      "parameters": {
+        "module": "[[ $functions ]]",
+        "functionName": "createPDF",
+        "params": [
+          "{{ $page.variables.textIncludedIntoPDF }}"
+        ]
+      },
+      "outcomes": {
+        "success": "assignVariablesTmpPDFBytes"
+      }
+    },
+    "assignVariablesTmpPDFBytes": {
+      "module": "vb/action/builtin/assignVariablesAction",
+      "parameters": {
+        "$page.variables.tmpPDFBytes": {
+          "source": "{{ $chain.results.callFunctionCreatePDF }}"
+        }
+      },
+      "outcomes": {
+        "success": "callFunctionDisplayPDFDocument"
+      }
+    },
+    "callFunctionDisplayPDFDocument": {
+      "module": "vb/action/builtin/callModuleFunctionAction",
+      "parameters": {
+        "module": "[[ $functions ]]",
+        "functionName": "displayPDFDocument",
+        "params": [
+          "{{ $page.variables.tmpPDFBytes }}"
+        ]
+      },
+      "outcomes": {
+        "success": "assignVariablesFileURL"
+      }
+    },
+    "assignVariablesFileURL": {
+      "module": "vb/action/builtin/assignVariablesAction",
+      "parameters": {
+        "$page.variables.fileURL": {
+          "source": "{{ $chain.results.callFunctionDisplayPDFDocument }}"
+        }
+      }
+    }
+  },
+  "variables": {}
+}

@@ -1,0 +1,17 @@
+{
+  "description": "",
+  "root": "callFunctionDownloadPDFFile",
+  "actions": {
+    "callFunctionDownloadPDFFile": {
+      "module": "vb/action/builtin/callModuleFunctionAction",
+      "parameters": {
+        "module": "[[ $functions ]]",
+        "functionName": "downloadPDFFile",
+        "params": [
+          "{{ $page.variables.tmpPDFBytes }}"
+        ]
+      }
+    }
+  },
+  "variables": {}
+}

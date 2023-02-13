@@ -1,0 +1,48 @@
+{
+  "description": "",
+  "root": "resetVariablesFileURL",
+  "actions": {
+    "callFunctionAddPDFDocument": {
+      "module": "vb/action/builtin/callModuleFunctionAction",
+      "parameters": {
+        "module": "[[ $functions ]]",
+        "functionName": "addPDFDocument",
+        "params": [
+          "{{ $variables.files[0] }}"
+        ]
+      },
+      "outcomes": {
+        "success": "assignVariablesFileURL"
+      }
+    },
+    "assignVariablesFileURL": {
+      "module": "vb/action/builtin/assignVariablesAction",
+      "parameters": {
+        "$page.variables.fileURL": {
+          "source": "{{ $chain.results.callFunctionAddPDFDocument.url }}"
+        },
+        "$page.variables.holdFile": {
+          "source": "{{ $chain.results.callFunctionAddPDFDocument.data }}"
+        }
+      }
+    },
+    "resetVariablesFileURL": {
+      "module": "vb/action/builtin/resetVariablesAction",
+      "parameters": {
+        "variables": [
+          "$page.variables.fileURL"
+        ]
+      },
+      "outcomes": {
+        "success": "callFunctionAddPDFDocument"
+      }
+    }
+  },
+  "variables": {
+    "files": {
+      "required": true,
+      "type": "object[]",
+      "input": "fromCaller"
+    }
+  }
+}

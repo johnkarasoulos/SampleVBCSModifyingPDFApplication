@@ -1,0 +1,67 @@
+<!-- Mobile only header and page title -->
+<header role="banner" class="oj-sm-flex-initial vb-web-applayout-header oj-md-hide">
+  <div role="image" class="vb-web-applayout-header-image-stripe"></div>
+  <div class="oj-flex-bar oj-sm-align-items-center vb-web-applayout-header-content">
+    <!-- Navigator toggle button will render only if we have a drawer -->
+    <oj-bind-if test="[[ document.querySelector('oj-vb-fragment[name=\'shell-drawer\']') ]]">
+      <div class="oj-flex-bar">
+        <oj-button on-oj-action="[[$listeners.toggleDrawer]]" chroming="borderless"
+                   display="icons">
+          <span slot="startIcon" class="oj-ux-ico-menu"></span>
+          <span><oj-bind-text value="[[$application.translations.app.app_title_navigation_drawer]]"></oj-bind-text></span>
+        </oj-button>
+      </div>
+    </oj-bind-if>
+    <!-- Page specific title and actions with overflow menu displayed -->
+    <div class="oj-sm-margin-2x-horizontal oj-sm-align-items-center oj-md-hide oj-sm-flex-1">
+      <div class="vb-content-header oj-flex oj-sm-flex-items-initial oj-sm-align-items-center">
+        <div class="oj-flex-item">
+          <div class="oj-typography-body-lg oj-typography-semi-bold">
+            <oj-bind-text value="main"></oj-bind-text>
+          </div>
+          <!-- Add Page specific actions etc -->
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Page specific title and actions for desktop formfactor -->
+<div class="vb-content-header oj-flex oj-sm-flex-1 oj-sm-only-hide oj-sm-align-items-center">
+  <div role="image" class="vb-content-header-image-stripe"></div>
+  <div class="oj-flex-item">
+    <div class="oj-typography-body-lg oj-typography-semi-bold">
+      <oj-bind-text value="main"></oj-bind-text>
+    </div>
+    <!-- Add Page specific actions etc -->
+  </div>
+</div>
+<div class="oj-flex oj-sm-flex-direction-column">
+  <h1 class="oj-flex-item oj-sm-flex-initial">Upload PDF Document</h1>
+  <div class="oj-flex oj-flex-item oj-sm-flex-initial">
+    <oj-file-picker class="oj-flex-item oj-sm-flex-initial" accept="[[['application/pdf']]]"
+      on-oj-select="[[$listeners.filePickerSelect]]"></oj-file-picker>
+  </div>
+  <oj-input-text label-hint="Enter text to include into the PDF Document" value="{{ $variables.textIncludedIntoPDF }}"
+    class="oj-flex-item oj-sm-flex-initial"></oj-input-text>
+</div>
+<div class="oj-flex">
+  <div class="oj-flex-item oj-sm-12 oj-md-2">
+    <oj-button label="Update PDF" on-oj-action="[[$listeners.buttonAction]]"></oj-button>
+  </div>
+  <div class="oj-flex-item oj-sm-12 oj-md-2">
+    <oj-button label="Create new PDF" on-oj-action="[[$listeners.buttonAction3]]"></oj-button>
+  </div>
+  <div class="oj-flex-item oj-sm-12 oj-md-2">
+    <oj-button label="Download PDF" on-oj-action="[[$listeners.buttonAction2]]"></oj-button>
+  </div>
+</div>
+<div class="oj-flex">
+  <div class="oj-flex-item oj-sm-flex-initial oj-flex">
+    <h2 class="oj-flex-item oj-sm-flex-initial">Document Preview</h2>
+      <object :data="[[ $variables.fileURL ]]" style="width: 100%;height: 800px;border: none;"
+        class="oj-flex-item oj-sm-flex-initial"></object>
+  </div>
+</div>
+
+
